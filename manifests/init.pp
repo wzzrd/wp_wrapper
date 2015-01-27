@@ -35,7 +35,40 @@
 #
 # Copyright 2015 Your name here, unless otherwise noted.
 #
-class wp_wrapper {
+class wp_wrapper(
+  $wp_db_pw,
+  $wp_db_user     = 'wordpress',
+  $wp_install_url = 'http://192.168.122.1',
+  $version        = '3.8.5'
+) {
 
+  mysql::db { 'wordpress':                                                         
+    user     => $wp_db_user,                                                       
+    password => $wp_db_pw,                                                         
+    host     => 'localhost',                                                       
+    grant    => ['ALL'],                                                           
+  }                                                                                
+                                                                                   
+  class { 'wordpress':                                                             
+    db_user        => $wp_db_user,                                                 
+    db_password    => $wp_db_pw,                                                   
+    install_url    => $wp_install_url,                                             
+    version        => $wp_version,                                                 
+    create_db      => false,                                                       
+    create_db_user => false,                                                       
+    install_dir    => '/var/www/html/wp',                                          
+    require        => Mysql::Db['wordpress'],                                      
+  }                                                                                
+                                                                                   
+  class { '::mysql::bindings':                                                     
+    php_enable => true,                                                            
+    require    => Mysql::Db['wordpress'],
+  }                                                                                
+                                                                                   
+  class { '::apache':                                                              
+    require => Class['::mysql::bindings'],
+  }                                                                                
+                                                                                   
+  include ::apache::mod::php
 
 }

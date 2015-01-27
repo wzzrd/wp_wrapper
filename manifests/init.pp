@@ -39,7 +39,7 @@ class wp_wrapper(
   $wp_db_pw,
   $wp_db_user     = 'wordpress',
   $wp_install_url = 'http://192.168.122.1',
-  $version        = '3.8.5'
+  $wp_version     = '3.8.5'
 ) {
 
   mysql::db { 'wordpress':                                                         

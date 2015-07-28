@@ -1,45 +1,45 @@
 # == Class: wp_wrapper
 #
-# Full description of class wp_wrapper here.
+# Wrapper class for wordpress and MySQL modules
 #
 # === Parameters
 #
-# Document parameters here.
+# [*wp_db_pw*]
+#   Database password that Wordpress will use; database will be setup with this
+#   password automatically.
 #
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
+# [*wp_db_user*]
+#   Database user that Wordpress will use; database will be setup with this
+#   user automatically. Defaults to 'wordpress'.
 #
-# === Variables
+# [*wp_install_url*]
+#   URL to download the software from; defaults to project homepage.
 #
-# Here you should define a list of variables that this module would require.
-#
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
+# [*wp_version*]
+#   Version of Wordpress to install; defaults to latest upstream 4.2.3
 #
 # === Examples
 #
 #  class { wp_wrapper:
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
+#    wp_db_pw       => 'weirdpassword',
+#    wp_db_user     => 'databaseuser',
+#    wp_install_url => 'http://internal.server.com/pub',
+#    wp_version     => '3.8.5',
 #  }
 #
 # === Authors
 #
-# Author Name <author@domain.com>
+# Maxim Burgerhout <maxim@redhat.com>
 #
 # === Copyright
 #
-# Copyright 2015 Your name here, unless otherwise noted.
+# Copyright 2015 Maxim Burgerhout
 #
 class wp_wrapper(
   $wp_db_pw,
   $wp_db_user     = 'wordpress',
-  $wp_install_url = 'http://192.168.122.1',
-  $wp_version     = '3.8.5'
+  $wp_install_url = 'http://wordpress.org',
+  $wp_version     = '4.2.3'
 ) {
 
   mysql::db { 'wordpress':                                                         
@@ -70,5 +70,11 @@ class wp_wrapper(
   }                                                                                
                                                                                    
   include ::apache::mod::php
+
+  firewalld::zone { 'public':
+    description => 'Public zone, custom for wordpress',
+    services    => ['ssh', 'dhcpv6-client', 'http',],
+  }
+
 
 }

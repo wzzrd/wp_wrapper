@@ -7,73 +7,45 @@
 3. [Setup - The basics of getting started with wp_wrapper](#setup)
     * [What wp_wrapper affects](#what-wp_wrapper-affects)
     * [Setup requirements](#setup-requirements)
-    * [Beginning with wp_wrapper](#beginning-with-wp_wrapper)
 4. [Usage - Configuration options and additional functionality](#usage)
-5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
 
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+This is a very simple Puppet module to setup MySQL (or MariaDB), Apache, and
+Wordpress on a RHEL7 or CentOS7 machine. It will also setup some firewall rules
+to allow traffic to the new Wordpress site. It uses firewalld for this, hence
+the dependency on RHEL7 or CentOS7.
 
 ## Module Description
 
-If applicable, this section should have a brief description of the technology
-the module integrates with and what that integration enables. This section
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?"
-
-If your module has a range of functionality (installation, configuration,
-management, etc.) this is the time to mention it.
+See above. Keep in mind that this module is for demoing, it is not a very well
+written piece of software :/
 
 ## Setup
 
 ### What wp_wrapper affects
 
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form.
+This module will install a MySQL or MariaDB server on your machine, install and
+configure Apache with a default configuration, open up port 80 in your
+firewall, download the Wordpress tarball from wordpress.org and set that up for
+you.
 
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
-
-### Beginning with wp_wrapper
-
-The very basic steps needed for a user to get the module up and running.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you may wish to include an additional section here: Upgrading
-(For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
+It uses the puppetlabs-mysql, puppetlabs-apache, hunner-wordpress and
+jpopelka-firewalld modules for this.
 
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
+The module only has one class, 'wp_wrapper', with one required parameter for
+the MySQL / MariaDB password (and three more optional ones). Invoke as follows:
 
-## Reference
-
-Here, list the classes, types, providers, facts, etc contained in your module.
-This section should include all of the under-the-hood workings of your module so
-people know what the module is touching on their system but don't need to mess
-with things. (We are working on automating this section!)
+class { wp_wrapper:
+  wp_db_pw       => 'weirdpassword',
+  wp_db_user     => 'databaseuser',
+  wp_install_url => 'http://internal.server.com/pub',
+  wp_version     => '3.8.5',
+}
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc.
-
-## Development
-
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
-
-## Release Notes/Contributors/Etc **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You may also add any additional sections you feel are
-necessary or important to include here. Please use the `## ` header.
+Only works on RHEL7 and derivates because of the use of firewalld.

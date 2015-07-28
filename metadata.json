@@ -1,15 +1,26 @@
 {
   "name": "maxim-wp_wrapper",
   "version": "0.1.0",
-  "author": "maxim",
-  "summary": null,
+  "author": "Maxim Burgerhout",
+  "summary": "Very simple demo wrapper module for Wordpress install",
   "license": "Apache 2.0",
-  "source": "",
-  "project_page": null,
-  "issues_url": null,
+  "source": "https://github.com/wzzrd/wp_wrapper.git",
+  "project_page": "https://github.com/wzzrd/wp_wrapper",
+  "issues_url": "https://github.com/wzzrd/wp_wrapper/issues",
   "dependencies": [
     {
-      "name": "puppetlabs-stdlib",
+      "name": "puppetlabs-mysql",
+      "version_range": ">= 3.4.0"
+    },
+    { 
+      "name": "puppetlabs-apache",
+      "version_range": ">= 1.4.1"
+    },
+    { 
+      "name": "jpopelka-firewalld",
+      "version_range": ">= 0.2.2"
+    },
+    { "name": "hummer-wordpress",
       "version_range": ">= 1.0.0"
     }
   ]

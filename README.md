@@ -36,15 +36,17 @@ jpopelka-firewalld modules for this.
 
 ## Usage
 
-The module only has one class, 'wp_wrapper', with one required parameter for
+The module only has one class, `wp_wrapper` with one required parameter for
 the MySQL / MariaDB password (and three more optional ones). Invoke as follows:
 
+```puppet
 class { wp_wrapper:
   wp_db_pw       => 'weirdpassword',
   wp_db_user     => 'databaseuser',
   wp_install_url => 'http://internal.server.com/pub',
   wp_version     => '3.8.5',
 }
+```
 
 ## Limitations
 

@@ -75,7 +75,7 @@ class wp_wrapper(
 
   firewalld::zone { 'public':
     description => 'Public zone, custom for wordpress',
-    services    => ['ssh', 'dhcpv6-client', 'http',],
+    services    => ['ssh', 'http',],
   }
 
 

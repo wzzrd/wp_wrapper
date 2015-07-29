@@ -1,6 +1,6 @@
 {
   "name": "maxim-wp_wrapper",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "Maxim Burgerhout",
   "summary": "Very simple demo wrapper module for Wordpress install",
   "license": "Apache 2.0",
@@ -15,10 +15,6 @@
     { 
       "name": "puppetlabs-apache",
       "version_range": ">= 1.4.1"
-    },
-    { 
-      "name": "jpopelka-firewalld",
-      "version_range": ">= 0.2.2"
     },
     { "name": "hummer-wordpress",
       "version_range": ">= 1.0.0"

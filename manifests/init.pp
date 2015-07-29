@@ -43,12 +43,17 @@ class wp_wrapper(
 ) {
 
   class { '::mysql::server':}
+  class { '::mysql::client':}
 
   mysql::db { 'wordpress':                                                         
-    user     => $wp_db_user,                                                       
-    password => $wp_db_pw,                                                         
-    host     => 'localhost',                                                       
-    grant    => ['ALL'],                                                           
+    user     => $wp_db_user,
+    password => $wp_db_pw,
+    host     => 'localhost',
+    grant    => ['ALL'],
+    require  => [
+      Class['::mysql::server'],
+      Class['::mysql::client'],
+    ],
   }                                                                                
                                                                                    
   class { 'wordpress':                                                             
@@ -72,11 +77,5 @@ class wp_wrapper(
   }                                                                                
                                                                                    
   include ::apache::mod::php
-
-  firewalld::zone { 'public':
-    description => 'Public zone, custom for wordpress',
-    services    => ['ssh', 'http',],
-  }
-
 
 }

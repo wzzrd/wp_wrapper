@@ -42,6 +42,8 @@ class wp_wrapper(
   $wp_version     = '4.2.3'
 ) {
 
+  class { '::mysql::server':}
+
   mysql::db { 'wordpress':                                                         
     user     => $wp_db_user,                                                       
     password => $wp_db_pw,                                                         
